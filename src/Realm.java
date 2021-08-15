@@ -6,10 +6,12 @@ public class Realm {
     private static BufferedReader br;
     private static Creature player = null;
     private static Battle battle = null;
+    private static Merchant merchant = null;
 
     public static void main(String[] args) {
         br = new BufferedReader(new InputStreamReader(System.in));
         battle = new Battle();
+        merchant = new Merchant();
         System.out.println("Введите имя персонажа:");
         try {
             command(br.readLine());
@@ -35,8 +37,7 @@ public class Realm {
         //Варианты для команд
         switch (string) {
             case "1": {
-                System.out.println("Торговец еще не приехал");
-                command(br.readLine());
+                merchantTime();
             }
             break;
             case "2": {
@@ -110,5 +111,36 @@ public class Realm {
                 100,
                 10
         );
+    }
+
+    private static void merchantTime() throws IOException {
+        System.out.println("Что вы хотите купить?");
+        System.out.println("1. Зелье лечения");
+        System.out.println("2. Меч тысячи истин");
+        System.out.println("3. Щит  из вибраниума");
+
+        switch (br.readLine()) {
+            case "1":
+                merchant.sell(Merchant.Goods.POTION);
+                System.out.println("Что-то еще? (да/нет)");
+                switch (br.readLine()) {
+                    case "да": merchantTime();
+                    case "нет": printNavigation(); command(br.readLine());
+                }
+            case "2":
+                merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS);
+                System.out.println("Что-то еще? (да/нет)");
+                switch (br.readLine()) {
+                    case "да": merchantTime();
+                    case "нет": printNavigation(); command(br.readLine());
+                }
+            case "3":
+                merchant.sell(Merchant.Goods.VIBRANIUMSHIELD);
+                System.out.println("Что-то еще? (да/нет)");
+                switch (br.readLine()) {
+                    case "да": merchantTime();
+                    case "нет": printNavigation(); command(br.readLine());
+                }
+        }
     }
 }

@@ -3,6 +3,7 @@ public class Battle {
         Runnable runnable = () -> {
             int turn = 1;
             boolean isFightEnded = false;
+            System.out.println("Появляется " + monster.getName() + "!");
             while (!isFightEnded) {
                 System.out.println("***Ход: " + turn + "***");
                 if (turn++ % 2 != 0) {

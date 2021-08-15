@@ -1,3 +1,3 @@
 public interface Selling {
-        String sell(Merchant.Goods goods, Creature hero);
+        String sell(Merchant.Goods goods);
 }
