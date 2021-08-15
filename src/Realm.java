@@ -47,6 +47,9 @@ public class Realm {
             case "3":
                 System.exit(1);
                 break;
+            case "4":
+                System.out.println(player);
+                break;
             case "да":
                 command("2");
                 break;
@@ -64,6 +67,7 @@ public class Realm {
         System.out.println("1. К Торговцу");
         System.out.println("2. В темный лес");
         System.out.println("3. Выход");
+        System.out.println("4. Показать мои характеристики");
     }
 
     private static void commitFight() {
@@ -121,21 +125,21 @@ public class Realm {
 
         switch (br.readLine()) {
             case "1":
-                merchant.sell(Merchant.Goods.POTION);
+                merchant.sell(Merchant.Goods.POTION, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
                     case "да": merchantTime();
                     case "нет": printNavigation(); command(br.readLine());
                 }
             case "2":
-                merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS);
+                merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
                     case "да": merchantTime();
                     case "нет": printNavigation(); command(br.readLine());
                 }
             case "3":
-                merchant.sell(Merchant.Goods.VIBRANIUMSHIELD);
+                merchant.sell(Merchant.Goods.VIBRANIUMSHIELD, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
                     case "да": merchantTime();
