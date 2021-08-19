@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Battle {
     public void fight(Creature hero, Creature monster, Realm.FightCallback fightCallback) {
         Runnable runnable = () -> {
@@ -7,9 +9,17 @@ public class Battle {
             while (!isFightEnded) {
                 System.out.println("***Ход: " + turn + "***");
                 if (turn++ % 2 != 0) {
-                    isFightEnded = makeHit(monster, hero, fightCallback);
+                    try {
+                        isFightEnded = makeHit(monster, hero, fightCallback);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    isFightEnded = makeHit(hero, monster, fightCallback);
+                    try {
+                        isFightEnded = makeHit(hero, monster, fightCallback);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 try {
                     Thread.sleep(1500);
@@ -22,7 +32,7 @@ public class Battle {
         thread.start();
     }
 
-    private boolean makeHit(Creature defender, Creature attacker, Realm.FightCallback fightCallback) {
+    private boolean makeHit(Creature defender, Creature attacker, Realm.FightCallback fightCallback) throws IOException {
         int hit = attacker.attack();
         int defenderHealth = defender.getHealthPoints() - hit;
 
@@ -33,11 +43,10 @@ public class Battle {
             System.out.println(String.format("%s промахнулся!", attacker.getName()));
         }
         if (defenderHealth <= 0 && defender instanceof Hero) {
-            System.out.println("Извините, вы пали в бою...");
             fightCallback.fightLost();
             return true;
         } else if (defenderHealth <= 0) {
-            System.out.println(String.format("Враг повержен! Вы получаете %d опыт и %d золота", defender.getExp(), defender.getGold()));
+            System.out.println(String.format("Враг повержен! Вы получаете %d опыта и %d золота", defender.getExp(), defender.getGold()));
             attacker.setExp(attacker.getExp() + defender.getExp());
             attacker.setGold(attacker.getGold() + defender.getGold());
             //вызываем коллбэк, что мы победили

@@ -4,13 +4,24 @@ public class Merchant implements Selling {
         String result = "";
             switch (goods) {
                 case POTION -> {
-                    result = "potion";
-                    player.setHealthPoints(player.getHealthPoints() + 20);
-                    System.out.println("Теперь ваше здоровье равно " + player.getHealthPoints());
+                    if (player.getGold() >= 50) {
+                        result = "potion";
+                        player.setHealthPoints(player.getHealthPoints() + 20);
+                        player.setGold(player.getGold() - 50);
+                        System.out.println("Теперь ваше здоровье равно " + player.getHealthPoints());
+                    } else {
+                        System.out.println("Нужно больше золота!");
+                    }
                 }
                 case SWORDOFA1000TRUTHS -> {
-                    result = "sword of a 1000 truths";
-                    System.out.println("Меч привезут на следующей неделе");
+                    if (player.getGold() >= 100) {
+                        result = "sword of a 1000 truths";
+                        player.setStrength(player.getStrength() + 10);
+                        player.setGold(player.getGold() - 100);
+                        System.out.println("Теперь ваша сила равна " + player.getStrength());
+                    } else {
+                        System.out.println("Нужно больше золота!");
+                    }
                 }
                 case VIBRANIUMSHIELD -> {
                     result = "vibranium shield";

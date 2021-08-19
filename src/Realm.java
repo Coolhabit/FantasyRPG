@@ -30,32 +30,41 @@ public class Realm {
                     0,
                     0
             );
-            System.out.println(String.format("Спасти наш мир от драконов вызвался %s! Да будет его броня крепка и бицепс кругл!", player.getName()));
+            System.out.println(String.format("Эй, проснись, %s! Ну ты и соня. Тебя даже вчерашний шторм не разбудил ! Говорят, мы уже приплыли в Морроувинд. Нас выпустят, это точно!", player.getName()));
             //Метод для вывода меню
             printNavigation();
         }
         //Варианты для команд
         switch (string) {
-            case "1": {
+            case "торговец": {
                 merchantTime();
             }
             break;
-            case "2": {
+            case "лес": {
                 commitFight();
             }
             break;
-            case "3":
+            case "выход":
                 System.exit(1);
                 break;
-            case "4":
+            case "скиллы":
                 System.out.println(player);
                 break;
-            case "да":
-                command("2");
+            case "поход":
+                command("лес");
                 break;
-            case "нет": {
+            case "город": {
                 printNavigation();
                 command(br.readLine());
+            }
+            case "возродиться": {
+                player = null;
+                System.out.println("Введите имя персонажа:");
+                command(br.readLine());
+            }
+            case "принять судьбу": {
+                System.exit(1);
+                break;
             }
         }
         //Снова ждем команды от пользователя
@@ -64,10 +73,10 @@ public class Realm {
 
     private static void printNavigation() {
         System.out.println("Куда вы хотите пойти?");
-        System.out.println("1. К Торговцу");
-        System.out.println("2. В темный лес");
-        System.out.println("3. Выход");
-        System.out.println("4. Показать мои характеристики");
+        System.out.println("(торговец) -> К Торговцу");
+        System.out.println("(лес) -> В темный лес");
+        System.out.println("(выход) -> Выход");
+        System.out.println("(скиллы) -> Показать мои характеристики");
     }
 
     private static void commitFight() {
@@ -75,7 +84,7 @@ public class Realm {
             @Override
             public void fightWin() {
                 System.out.println(String.format("%s победил! Теперь у вас %d опыта и %d золота, а также осталось %d единиц здоровья.", player.getName(), player.getExp(), player.getGold(), player.getHealthPoints()));
-                System.out.println("Желаете продолжить поход или вернуться в город? (да/нет)");
+                System.out.println("Желаете продолжить поход или вернуться в город? (поход/город)");
                 try {
                     command(br.readLine());
                 } catch (IOException e) {
@@ -84,67 +93,86 @@ public class Realm {
             }
 
             @Override
-            public void fightLost() {
-
+            public void fightLost() throws IOException {
+                System.out.println("Извините, вы пали в бою. Введите *возродиться*, чтобы создать нового персонажа, или *принять судьбу*, чтобы выйти из игры.");
+                try {
+                    command(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     interface FightCallback {
         void fightWin();
-        void fightLost();
+        void fightLost() throws IOException;
     }
 
     private static Creature createMonster() {
         //Рандомайзер
         int random = (int) (Math.random() * 10);
+        int min = 10;
+        int max = 50;
         //С вероятностью 50% создается или скелет, или гоблин
-        if (random % 2 == 0) return new Goblin(
+        if (random % 2 == 0) return new Monster(
                 "Гоблин",
-                50,
-                10,
-                10,
+                (int) (Math.random() * ++max) + min,
+                (int) (Math.random() * ++max) + min,
+                (int) (Math.random() * ++max) + min,
                 100,
-                20
+                (int) (Math.random() * ++max) + min
         );
-        else return new Skeleton(
+        else return new Monster(
                 "Скелет",
-                25,
-                20,
-                20,
+                (int) (Math.random() * ++max) + min,
+                (int) (Math.random() * ++max) + min,
+                (int) (Math.random() * ++max) + min,
                 100,
-                10
+                (int) (Math.random() * ++max) + min
         );
     }
 
     private static void merchantTime() throws IOException {
         System.out.println("Что вы хотите купить?");
-        System.out.println("1. Зелье лечения");
-        System.out.println("2. Меч тысячи истин");
-        System.out.println("3. Щит  из вибраниума");
+        System.out.println("(зелье) -> Зелье лечения");
+        System.out.println("(меч) -> Меч тысячи истин");
+        System.out.println("(щит) -> Щит  из вибраниума");
 
         switch (br.readLine()) {
-            case "1":
+            case "зелье": {
                 merchant.sell(Merchant.Goods.POTION, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
-                    case "да": merchantTime();
-                    case "нет": printNavigation(); command(br.readLine());
+                    case "да":
+                        merchantTime();
+                    case "нет":
+                        printNavigation();
+                        command(br.readLine());
                 }
-            case "2":
+            }
+            case "меч": {
                 merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
-                    case "да": merchantTime();
-                    case "нет": printNavigation(); command(br.readLine());
+                    case "да":
+                        merchantTime();
+                    case "нет":
+                        printNavigation();
+                        command(br.readLine());
                 }
-            case "3":
+            }
+            case "щит": {
                 merchant.sell(Merchant.Goods.VIBRANIUMSHIELD, player);
                 System.out.println("Что-то еще? (да/нет)");
                 switch (br.readLine()) {
-                    case "да": merchantTime();
-                    case "нет": printNavigation(); command(br.readLine());
+                    case "да":
+                        merchantTime();
+                    case "нет":
+                        printNavigation();
+                        command(br.readLine());
                 }
+            }
         }
     }
 }
