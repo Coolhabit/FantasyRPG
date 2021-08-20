@@ -12,6 +12,7 @@ public class Merchant implements Selling {
                     } else {
                         System.out.println("Нужно больше золота!");
                     }
+                    break;
                 }
                 case SWORDOFA1000TRUTHS -> {
                     if (player.getGold() >= 100) {
@@ -22,10 +23,16 @@ public class Merchant implements Selling {
                     } else {
                         System.out.println("Нужно больше золота!");
                     }
+                    break;
                 }
                 case VIBRANIUMSHIELD -> {
                     result = "vibranium shield";
                     System.out.println("Капитан-Америка еще не вернул щит");
+                    break;
+                }
+                default -> {
+                    System.out.println("Парень, выбери что-нибудь!");
+                    break;
                 }
             }
         return result;

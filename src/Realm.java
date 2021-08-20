@@ -66,6 +66,9 @@ public class Realm {
                 System.exit(1);
                 break;
             }
+            default:
+                System.out.println("Ты определился?");
+                break;
         }
         //Снова ждем команды от пользователя
         command(br.readLine());
@@ -150,6 +153,7 @@ public class Realm {
                         printNavigation();
                         command(br.readLine());
                 }
+                break;
             }
             case "меч": {
                 merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS, player);
@@ -161,6 +165,7 @@ public class Realm {
                         printNavigation();
                         command(br.readLine());
                 }
+                break;
             }
             case "щит": {
                 merchant.sell(Merchant.Goods.VIBRANIUMSHIELD, player);
@@ -172,7 +177,11 @@ public class Realm {
                         printNavigation();
                         command(br.readLine());
                 }
+                break;
             }
+            default:
+                System.out.println("Выбери что-нибудь, парень!");
+                break;
         }
     }
 }
