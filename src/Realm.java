@@ -152,6 +152,8 @@ public class Realm {
                     case "нет":
                         printNavigation();
                         command(br.readLine());
+                    default:
+                        System.out.println("Не знаю!");
                 }
                 break;
             }
@@ -164,6 +166,8 @@ public class Realm {
                     case "нет":
                         printNavigation();
                         command(br.readLine());
+                    default:
+                        System.out.println("Не знаю!");
                 }
                 break;
             }
@@ -176,6 +180,8 @@ public class Realm {
                     case "нет":
                         printNavigation();
                         command(br.readLine());
+                    default:
+                        System.out.println("Не знаю!");
                 }
                 break;
             }
