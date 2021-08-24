@@ -23,6 +23,7 @@ public class Realm {
 
 // основной метод
     private static void command(String string) throws IOException {
+        boolean isEnough = false;
         if (player == null) {
             player = new Hero(
                     string,
@@ -37,37 +38,44 @@ public class Realm {
             printNavigation();
         }
         //Варианты для команд
-        switch (string) {
-            case "торговец" -> {
-                merchantTime();
-            }
-            case "лес" -> {
-                commitFight();
-            }
-            case "выход", "принять судьбу" -> {
-                System.exit(1);
-            }
-            case "скиллы" -> {
-                System.out.println(player);
-            }
-            case "поход" -> {
-                command("лес");
-            }
-            case "город" -> {
-                printNavigation();
-                command(br.readLine());
-            }
-            case "возродиться" -> {
-                player = null;
-                System.out.println("Введите имя персонажа:");
-                command(br.readLine());
-            }
-            default -> {
-                System.out.println("Ты определился?");
+        while (!isEnough) {
+            switch (string) {
+                case "торговец" -> {
+                    merchantTime();
+                    isEnough = true;
+                }
+                case "лес" -> {
+                    commitFight();
+                    isEnough = true;
+
+                }
+                case "выход", "принять судьбу" -> {
+                    System.exit(1);
+                }
+                case "скиллы" -> {
+                    System.out.println(player);
+                    isEnough = true;
+                }
+                case "поход" -> {
+                    command("лес");
+                    isEnough = true;
+                }
+                case "город" -> {
+                    isEnough = true;
+                    printNavigation();
+                    command(br.readLine());
+                }
+                case "возродиться" -> {
+                    player = null;
+                    System.out.println("Введите имя персонажа:");
+                    command(br.readLine());
+                }
+                default -> {
+                    System.out.println("Ты определился?");
+                    command(br.readLine());
+                }
             }
         }
-        //Снова ждем команды от пользователя
-        command(br.readLine());
     }
 
     //основное меню
@@ -137,55 +145,30 @@ public class Realm {
 
     //торговля (есть непонятный баг)
     private static void merchantTime() throws IOException {
-        System.out.println("Что вы хотите купить?");
+        System.out.println("Чего желаете?");
         System.out.println("(зелье) -> Зелье лечения");
         System.out.println("(меч) -> Меч тысячи истин");
         System.out.println("(щит) -> Щит  из вибраниума");
-
-        switch (br.readLine()) {
-            case "зелье" -> {
-                merchant.sell(Merchant.Goods.POTION, player);
-                System.out.println("Что-то еще? (да/нет)");
-                switch (br.readLine()) {
-                    case "да" -> {
-                        merchantTime();
-                    }
-                    case "нет" -> {
-                        printNavigation();
-                        command(br.readLine());
-                    }
-                    default -> System.out.println("Не расслышал, повтори!");
+        System.out.println("(хватит) -> Уйти из магазина");
+        boolean isFinished = false;
+        while(!isFinished) {
+            switch (br.readLine()) {
+                case "зелье" -> {
+                    merchant.sell(Merchant.Goods.POTION, player);
                 }
-            }
-            case "меч" -> {
-                merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS, player);
-                System.out.println("Что-то еще? (да/нет)");
-                switch (br.readLine()) {
-                    case "да" -> {
-                        merchantTime();
-                    }
-                    case "нет" -> {
-                        printNavigation();
-                        command(br.readLine());
-                    }
-                    default -> System.out.println("Не знаю!");
+                case "меч" -> {
+                    merchant.sell(Merchant.Goods.SWORDOFA1000TRUTHS, player);
                 }
-            }
-            case "щит" -> {
-                merchant.sell(Merchant.Goods.VIBRANIUMSHIELD, player);
-                System.out.println("Что-то еще? (да/нет)");
-                switch (br.readLine()) {
-                    case "да" -> {
-                        merchantTime();
-                    }
-                    case "нет" -> {
-                        printNavigation();
-                        command(br.readLine());
-                    }
-                    default -> System.out.println("Не знаю!");
+                case "щит" -> {
+                    merchant.sell(Merchant.Goods.VIBRANIUMSHIELD, player);
                 }
+                case "хватит" -> {
+                    isFinished = true;
+                    printNavigation();
+                    command(br.readLine());
+                }
+                default -> System.out.println("Выбери что-нибудь, парень!");
             }
-            default -> System.out.println("Выбери что-нибудь, парень!");
         }
     }
 }
