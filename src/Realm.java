@@ -71,6 +71,7 @@ public class Realm {
                     command(br.readLine());
                 }
                 default -> {
+                    isEnough = true;
                     System.out.println("Ты определился?");
                     command(br.readLine());
                 }
