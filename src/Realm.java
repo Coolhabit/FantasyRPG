@@ -66,8 +66,17 @@ public class Realm {
                     command(br.readLine());
                 }
                 case "возродиться" -> {
-                    player = null;
+                    isEnough = true;
                     System.out.println("Введите имя персонажа:");
+                    String newName = br.readLine();
+                    player.setName(newName);
+                    player.setStrength(20);
+                    player.setAgility(0);
+                    player.setGold(0);
+                    player.setHealthPoints(50);
+                    player.setExp(0);
+                    System.out.println("Вы возродились под именем " + player.getName() + "! Ваши навыки вернулись к изначальному значению, опыт и золото сгорели, а здоровье равно " + player.getHealthPoints());
+                    printNavigation();
                     command(br.readLine());
                 }
                 default -> {
@@ -123,10 +132,18 @@ public class Realm {
     private static Creature createMonster() {
         //Рандомайзер
         int random = (int) (Math.random() * 10);
-        int min = 10;
-        int max = 20;
+        int min = 15;
+        int max = 30;
         //С вероятностью 50% создается или скелет, или гоблин
-        if (random % 2 == 0) return new Monster(
+        if (random == 1) return new Monster(
+                "Дракон",
+                50,
+                50,
+                50,
+                200,
+                50
+        );
+        else if (random % 2 == 0) return new Monster(
                 "Гоблин",
                 (int) (Math.random() * ++max) + min,
                 (int) (Math.random() * ++max) + min,
