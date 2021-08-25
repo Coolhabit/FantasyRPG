@@ -9,6 +9,7 @@ public class Merchant implements Selling {
                         player.setHealthPoints(player.getHealthPoints() + 20);
                         player.setGold(player.getGold() - 50);
                         System.out.println("Теперь ваше здоровье равно " + player.getHealthPoints());
+                        System.out.println("Остаток золота: " + player.getGold());
                     } else {
                         System.out.println("Нужно больше золота!");
                     }
@@ -19,13 +20,18 @@ public class Merchant implements Selling {
                         player.setStrength(player.getStrength() + 10);
                         player.setGold(player.getGold() - 100);
                         System.out.println("Теперь ваша сила равна " + player.getStrength());
+                        System.out.println("Остаток золота: " + player.getGold());
                     } else {
                         System.out.println("Нужно больше золота!");
                     }
                 }
                 case VIBRANIUMSHIELD -> {
-                    result = "vibranium shield";
-                    System.out.println("Капитан-Америка еще не вернул щит");
+                    if(player.getGold() >= 200) {
+                        result = "vibranium shield";
+                        System.out.println("Капитан-Америка еще не вернул щит");
+                    } else {
+                        System.out.println("Нужно больше золота!");
+                    }
                 }
                 default -> {
                     System.out.println("Парень, выбери что-нибудь!");
