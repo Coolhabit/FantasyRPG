@@ -144,7 +144,7 @@ public class Realm {
             }
         });
     }
-
+// интерфейс для исхода битвы
     interface FightCallback {
         void fightWin();
         void fightLost() throws IOException;
@@ -186,7 +186,7 @@ public class Realm {
         );
     }
 
-    //торговля (есть непонятный баг)
+    //торговля
     private static void merchantTime() throws IOException {
         System.out.println("Чего желаете?");
         System.out.println("(зелье) -> Зелье лечения (50 золота / +20 к здоровью)");
@@ -214,7 +214,7 @@ public class Realm {
             }
         }
     }
-
+// апаем уровень во сне
     private static void levelUp() throws IOException {
         if(player.getExp() >= 100) {
             player.setLevel(player.getLevel() + 1);
@@ -228,7 +228,7 @@ public class Realm {
         }
         command(br.readLine());
     }
-
+// сохранение и загрузка персонажа в файл
     public static void saveGame() throws IOException {
         FileOutputStream outputStream = new FileOutputStream("D:\\save.ser");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
