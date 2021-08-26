@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 // создание мира
 public class Realm {
@@ -86,6 +84,20 @@ public class Realm {
                     printNavigation();
                     command(br.readLine());
                 }
+                case "сохр" -> {
+                    saveGame();
+                    isEnough = true;
+                    command(br.readLine());
+                }
+                case "загр" -> {
+                    try {
+                        loadGame();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    isEnough = true;
+                    command(br.readLine());
+                }
                 default -> {
                     isEnough = true;
                     System.out.println("Ты определился?");
@@ -102,6 +114,8 @@ public class Realm {
         System.out.println("(лес) -> В темный лес");
         System.out.println("(отдых) -> Поспать и отдохнуть");
         System.out.println("(скиллы) -> Показать мои характеристики");
+        System.out.println("(сохр) -> Сохранить игру");
+        System.out.println("(загр) -> Загрузить игру");
         System.out.println("(выход) -> Выход");
     }
 
@@ -213,5 +227,21 @@ public class Realm {
             System.out.println("Вы всю ночь ворочались во сне и толком не выспались. Еще один день впереди.");
         }
         command(br.readLine());
+    }
+
+    public static void saveGame() throws IOException {
+        FileOutputStream outputStream = new FileOutputStream("D:\\save.ser");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+        objectOutputStream.writeObject(player);
+        System.out.println("Игра сохранена!");
+        objectOutputStream.close();
+    }
+
+    public static void loadGame() throws IOException, ClassNotFoundException {
+        FileInputStream inputStream = new FileInputStream("D:\\save.ser");
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        player = (Hero) objectInputStream.readObject();
+        System.out.println("Игра загружена! Проверьте свои скиллы и убедитесь!");
     }
 }

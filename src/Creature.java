@@ -1,4 +1,6 @@
-public abstract class Creature implements Fighter {
+import java.io.Serializable;
+
+public abstract class Creature implements Fighter, Serializable {
     private String name;
     private int level;
     private int hp;
