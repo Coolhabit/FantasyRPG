@@ -1,13 +1,16 @@
 public abstract class Creature implements Fighter {
     private String name;
+    private int level;
     private int hp;
     private int strength;
     private int agility;
     private int gold;
     private int exp;
 
-    public Creature(String name, int hp, int strength, int agility, int gold, int exp) {
+
+    public Creature(String name, int level, int hp, int strength, int agility, int gold, int exp) {
         this.name = name;
+        this.level = level;
         this.hp = hp;
         this.strength = strength;
         this.agility = agility;
@@ -23,9 +26,9 @@ public abstract class Creature implements Fighter {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
+    public int getLevel() {return level;}
+    public void setLevel(int level) { this.level = level;}
     public int getHealthPoints() {
         return hp;
     }
@@ -62,6 +65,6 @@ public abstract class Creature implements Fighter {
 
     @Override
     public String toString() {
-        return String.format("%s здоровье:%d", name, hp);
+        return String.format("%s = уровень: %d / здоровье: %d / сила: %d / ловкость: %d / золото: %d / опыт: %d", name, level, hp, strength, agility, gold, exp);
     }
 }
